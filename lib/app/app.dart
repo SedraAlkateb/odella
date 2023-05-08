@@ -1,17 +1,20 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:untitled/generated/l10n.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled/app/app_preferences.dart';
 import 'package:untitled/app/di.dart';
 import 'package:untitled/presentation/base_home/view_model/base_home_view_model.dart';
 import 'package:untitled/presentation/map_position/view_model/map_position_view_model.dart';
+import 'package:untitled/presentation/page/complaints/view_model/complaints_viewmodel.dart';
 import 'package:untitled/presentation/page/drawer/view/drawer_viewmodel.dart';
+import 'package:untitled/presentation/page/lost_items/view_model/lost_items_viewmodle.dart';
 import 'package:untitled/presentation/page/page_view_model.dart';
 import 'package:untitled/presentation/login/view_model/login_viewmodel.dart';
 
 import 'package:untitled/presentation/resources/routes_manager.dart';
 import 'package:untitled/presentation/resources/them_manager.dart';
+import 'package:untitled/presentation/settings/view_model/settings_viewmaodel.dart';
 import 'package:untitled/presentation/signup/view_model/signup_view_model.dart';
 import 'package:untitled/presentation/page/home/view_model/home_view_model.dart';
 import 'package:untitled/presentation/page/profile/view_model/profile_view_model.dart';
@@ -32,8 +35,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+ final AppPreferences _appPreferences =instance<AppPreferences>();
   @override
+  void didChangeDependencies() {
+
+    _appPreferences.getLocale().then((local) {
+      context.setLocale(local);
+    }
+    );
+    super.didChangeDependencies();
+  }
+ @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_)=>instance<SignUpViewModel>()),
@@ -45,23 +59,17 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (_)=>instance<SubscriptionViewModel>()),
           ChangeNotifierProvider(create: (_)=>instance<DrawerViewModel>()),
           ChangeNotifierProvider(create: (_)=>instance<BaseHomeViewModel>()),
-
-
+          ChangeNotifierProvider(create: (_)=>LostItemsViewModel()),
+          ChangeNotifierProvider(create: (_)=>ComplaintsViewModel()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner:false,
           onGenerateRoute: RouteGenerator.getRoute,
           initialRoute: Routes.splashRoute,
-          theme: getApplicationTheme(
-
-          ),
-          localizationsDelegates: [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
+          theme: getApplicationTheme(),
+          localizationsDelegates: context.localizationDelegates,
+          locale: context.locale,
+          supportedLocales: context.supportedLocales,
       ),
 
     );

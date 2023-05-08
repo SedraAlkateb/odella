@@ -165,15 +165,15 @@ extension DataTransferPositionsResponseMapper
   DataTransferPositions toDomain() {
     return DataTransferPositions(
         this?.id.orZero() ?? Constants.zero,
-        this?.name_ar.orEmpty() ?? Constants.empty,
-        this?.name_en.orEmpty() ?? Constants.empty);
+        this?.name.orEmpty() ?? Constants.empty,
+    );
   }
 }
 
 extension TransferPositionsResponseMapper on TransferPositionsResponse? {
   TransferPositions toDomain() {
     List<DataTransferPositions> dataModel = (this
-                ?.dataTransferPositionsResponse
+                ?.transferPositionsDataMainResponse?.transferPositionsDataResponse
                 ?.map((dataResponse) => dataResponse.toDomain()) ??
             const Iterable.empty())
         .cast<DataTransferPositions>()
@@ -324,3 +324,27 @@ extension LocationDataResponseMapper on LocationsResponse? {
   }
 }
 ///////////////////////////
+extension DataProgramResponseMapper on DayProgramResponse? {
+  DataProgram toDomain() {
+    return DataProgram(
+      this?.day?.name ?? Constants.empty,
+      this?.transfer_position.toDomain(),
+      this?.start  ?? Constants.empty,
+      this?.end ?? Constants.empty,
+      this?.confirmAttendance1 ?? Constants.empty,
+      this?.confirmAttendance2 ?? Constants.empty,
+
+    );
+  }
+}
+extension ProgramResponseMapper on ProgramResponse? {
+  Program toDomain() {
+      List<DataProgram> dataModel = (this
+          ?.dayProgramResponse
+          ?.map((dataResponse) => dataResponse.toDomain()) ??
+          const Iterable.empty())
+          .cast<DataProgram>()
+          .toList();
+      return Program(dataModel);
+  }
+}

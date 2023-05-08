@@ -18,17 +18,7 @@ var loginObject=LoginObject("","");
 setAuth(Authentication authentication){
   _authentication=authentication;
   notifyListeners();
-}/*
-
-bool getM(){
- return _isMounted;
 }
-setM(bool b){
-  _isMounted=b;
-  notifyListeners();
-}
-*/
-
 bool success(){
   if(_authentication?.status==1){
     return true;
@@ -75,13 +65,11 @@ String? getRole(){
               inputState.add(ErrorState(StateRendererType.popupErrorState, failure.massage));
         },
             (data)  async{
-
               // await _appPreferences.setToken();
             inputState.add(ContentState());
             setAuth(data);
 
             });
-
  }
 
 
@@ -89,13 +77,11 @@ String? getRole(){
   @override
   setPassword(String password) {
     loginObject= loginObject.copyWith(password: password);
-notifyListeners();
   }
 
   @override
   setUserName(String userName) {
     loginObject=loginObject.copyWith(userName: userName);
-notifyListeners();
   }
 /////////////////////////output//////////////////////////
 

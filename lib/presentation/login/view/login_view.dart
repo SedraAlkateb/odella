@@ -26,17 +26,11 @@ class _LoginViewState extends State<LoginView> {
   final AppPreferences _appPreferences =instance<AppPreferences>();
   LoginViewModel _viewModel=instance<LoginViewModel>();
   _bind() {
- //  _viewModel.setM(true);
-//   if (Provider.of<LoginViewModel>(context).getM()) {
-     // Update the state only if the widget is still mounted
+
        SchedulerBinding.instance.addPostFrameCallback((_) {
 
      Provider.of<LoginViewModel>(context,listen: false).start();
       });
- //  }
-    //tell viewmodel,start  ur job
-   // SchedulerBinding.instance.addPostFrameCallback((_) {
-   // });
   }
 
   @override
@@ -49,7 +43,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
-    //_appPreferences.isUserLoggedIn();
     _bind();
     super.initState();
   }
@@ -148,7 +141,7 @@ class _LoginViewState extends State<LoginView> {
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   controller: _userNameController,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                     hintText: StringsManager.username,
                     labelText: StringsManager.username,
                   ),
@@ -170,7 +163,7 @@ class _LoginViewState extends State<LoginView> {
                 child: TextFormField(
                   keyboardType: TextInputType.visiblePassword,
                   controller: _passwordController,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                     hintText: StringsManager.password,
                     labelText: StringsManager.password,
                   ),
@@ -216,7 +209,7 @@ class _LoginViewState extends State<LoginView> {
                           Provider.of<LoginViewModel>(context,listen: false).login();
                         }
                       },
-                      child: const Text(StringsManager.signIn)),
+                      child:  Text(StringsManager.signIn)),
                 ),
               ),
               const SizedBox(
@@ -231,12 +224,10 @@ class _LoginViewState extends State<LoginView> {
                   alignment: Alignment.center,
                   child: Row(
                     children: [
-                      const Text(StringsManager.registerText),
+                       Text(StringsManager.registerText),
                       TextButton(
                         onPressed: () {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
                             Navigator.pushNamed(context, Routes.signupRoute);
-                          });
                         },
                         child: Text(
                           StringsManager.signUp,

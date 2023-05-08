@@ -24,5 +24,6 @@ Future< Either<Failure,UpdateStudentModel>>updatePassword(UpdatePasswordRequest 
 Future< Either<Failure,UpdateStudentModel>>updateImage(UpdateImage updateImage);
 
 Future< Either<Failure,LogOutResponse>>logout();
+Future< Either<Failure,Program>>programs();
 
 }

@@ -14,6 +14,7 @@ import 'package:untitled/presentation/base/base_view_model.dart';
 import 'package:untitled/presentation/common/freezed_data.dart';
 import 'package:untitled/presentation/common/image/image.dart';
 import 'package:untitled/presentation/common/image/downloadImage.dart';
+import 'package:untitled/presentation/common/state_renderer/state_renderer.dart';
 import 'package:untitled/presentation/common/state_renderer/state_renderer_imp.dart';
 import 'package:untitled/presentation/resources/color_manager.dart';
 class ProfileViewModel extends BaseViewModel with ChangeNotifier {
@@ -48,22 +49,7 @@ class ProfileViewModel extends BaseViewModel with ChangeNotifier {
      notifyListeners();
   }
 
-/*
- Uint8List getImageByte(){
-    return bytes ??Uint8List(0);
-  }
-Future<File> getFile()async{
-  final file= await uint8ListToFile(
-        getImageByte(), "profile");
-image=file;
-  notifyListeners();
-return  file ;
-  }
-  setImageByte(Uint8List uint8list){
-    bytes=uint8list;
-    notifyListeners();
-  }
-  */
+
   @override
   void start() {
    student();
@@ -276,11 +262,11 @@ notifyListeners();
 
 //////////////////////////////////////
   student() async {
-  //  inputState.add(LoadingState(stateRendererType: StateRendererType.popupLoadingState));
+    inputState.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState));
 
     (await _profileUseCase.execute(null))
         .fold((failure) {
-//      inputState.add(ErrorState(StateRendererType.popupErrorState, failure.massage));
+      inputState.add(ErrorState(StateRendererType.popupErrorState, failure.massage));
     }, (data)async {
           setProfile(data);
           setIsStudent(true);
@@ -290,9 +276,7 @@ notifyListeners();
           final file = File('${directory.path}/image.jpg') ;
           await file.writeAsBytes(bytes);
           setIm(file);
-
-  //   await  _downloadImage(data.userModel?.image ?? "");
-     //     inputState.add(ContentState());
+          inputState.add(ContentState());
       notifyListeners();
     });
   }
@@ -386,43 +370,5 @@ notifyListeners();
       notifyListeners();
     });
   }
-/*
 
-  bool _downloading = false;
-  late String _localPath;
-
- bool getDownload(){
-    return _downloading;
-  }
-  setDownload(bool d){
-    _downloading=d;
-    notifyListeners();
-  }
-  getLocalPath(){
-   return _localPath;
-  }
-  setLocalPath(String path){
-   _localPath=path;
-   notifyListeners();
-  }
-
-  Future<void> _downloadImage(String imageUrl) async {
-      setDownload(true);
-    try {
-      final response = await Dio().get(imageUrl, options: Options(responseType: ResponseType.bytes));
-      final appDir = await getApplicationDocumentsDirectory();
-      final fileName = imageUrl.split('/').last;
-      final filePath = '${appDir.path}/$fileName';
-      final file = File(filePath);
-      await file.writeAsBytes(response.data);
-      setDownload(false);
-       // _downloading = false;
-      setLocalPath(filePath);
-     //   _localPath = filePath;
-    } catch (e) {
-      print(e);
-    }
-  }
-
- */
 }

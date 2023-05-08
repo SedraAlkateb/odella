@@ -31,7 +31,7 @@ class StateRenderer extends StatelessWidget {
   StateRenderer(
       {
         required  this.stateRendererType,
-        this.message=StringsManager.loading,
+        required this.message,
         this.title="",
         required this.retryActionFunction});
   @override
@@ -161,6 +161,9 @@ Widget  _getDialogContent (BuildContext context,List<Widget>children){
   crossAxisAlignment: CrossAxisAlignment.center,
   children: children,
   );
+}
+getMessage(String ){
+
 }
 }
 

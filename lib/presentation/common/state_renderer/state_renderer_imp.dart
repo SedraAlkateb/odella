@@ -11,11 +11,11 @@ abstract class FlowState{
 //loading state (popup , full screen)
 class LoadingState extends FlowState{
   StateRendererType stateRendererType;
-  String? message ;
+   String? message ;
   LoadingState(
       {
         required this.stateRendererType,
-        String message = StringsManager.loading
+        this.message
       }
       );
     @override

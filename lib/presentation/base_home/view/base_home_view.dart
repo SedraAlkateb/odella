@@ -47,7 +47,9 @@ class _BaseHomeViewState extends State<BaseHomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(StringsManager.home,style: Theme.of(context).textTheme.labelLarge,),
+        title:
+        Text(
+          StringsManager.home,style: Theme.of(context).textTheme.labelLarge,),
         leading: IconButton(
           onPressed: () {
             SchedulerBinding.instance.addPostFrameCallback((_) {

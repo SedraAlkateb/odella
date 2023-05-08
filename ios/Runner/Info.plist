@@ -3,6 +3,7 @@
 <plist version="1.0">
 <dict>
 <key>NSAppTransportSecurity</key>
+
     <dict>
         <key>NSAllowsArbitraryLoads</key>
         <true/>
@@ -52,5 +53,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+    <key>CFBundleLocalizations</key>
+    <array>
+    	<string>en</string>
+    	<string>ar</string>
+    </array>
 </dict>
 </plist>

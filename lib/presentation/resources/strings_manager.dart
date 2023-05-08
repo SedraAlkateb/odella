@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:untitled/lang/locale_keys.g.dart';
 class StringsManager{
   static const noRouteFound ="No Route Found";
   static const onBoardingTitle1 ="SEE THE BEST COURSE s1";
@@ -10,64 +12,63 @@ class StringsManager{
   static const onBoardingSubTitle3 ="Tut app is an awesone flutter application using clean architector s1";
   static const onBoardingSubTitle4 ="Tut app is an awesone flutter application using clean architector s1";
   static const skip ="Skip";
-  static const username ="Email";
-  static const usernameError ="Please inter your username";
-  static const passwordError ="Please inter your password";
+  static String username =LocaleKeys.username.tr();
+  static String usernameError =LocaleKeys.usernameError.tr();
+  static String passwordError =LocaleKeys.passwordError.tr();
 
-  static const password ="password";
-  static const forgetPassword ="Forget password";
-  static const signIn ="Sign In";
-  static const signUp ="Sign up";
+  static String password =LocaleKeys.password.tr();
+  static String forgetPassword =LocaleKeys.forgetPassword.tr();
+  static String signIn =LocaleKeys.signIn.tr();
+  static String signUp =LocaleKeys.signUp.tr();
 
-  static const registerText ="Not a member ? ";
-  static const transportationLines="Transportation Lines";
-  static const dailyReservation="Daily Reservation";
-  static const subscription="Subscription";
-  static const loading="Loading...";
-  static const ok="Ok";
-  static const retryAgain="Retry again";
-  static const success="Success";
-  static const search="  Search for transmission lines ";
-  static const eFirstName="   First name ";
-  static const eLastName="   Last name ";
-  static const eEmail="   Email ";
-  static const ePassword="   Password ";
-  static const ePhoneNumber="   Phone number";
-  static const errorFirstName="  Please inter your first name ";
-  static const errorLastName="   Please inter your last name ";
-  static const errorEmail="   Please inter your email ";
-  static const errorPassword="   Please inter your password ";
-  static const errorPhoneNumber="   Please inter your phone number";
-  static const transferPositions=" TransferPositions";
-  static const daysNumber=" Days number";
-  static const universities=" Universities";
-  static const name=" Name";
-  static const programmer=" Programmer";
+  static String registerText =LocaleKeys.registerText.tr();
+  static String transportationLines =LocaleKeys.transportationLines.tr();
+  static String dailyReservation=LocaleKeys.dailyReservation.tr();
+  static String subscription=LocaleKeys.subscription.tr();
+  static String loading=LocaleKeys.loading.tr();
+  static String ok=LocaleKeys.ok.tr();
+  static String retryAgain=LocaleKeys.retryAgain.tr();
+  static String success=LocaleKeys.success.tr();
+  static String search=LocaleKeys.search.tr();
+  static String eFirstName=LocaleKeys.eFirstName.tr();
+  static String eLastName=LocaleKeys.eLastName.tr();
+  static String ePhoneNumber=LocaleKeys.ePhoneNumber.tr();
+  static String errorFirstName=LocaleKeys.errorFirstName.tr();
+  static String errorLastName=LocaleKeys.errorLastName.tr();
+  static String errorEmail=LocaleKeys.errorEmail.tr();
+  static String errorPassword=LocaleKeys.errorPassword.tr();
+  static String errorPhoneNumber=LocaleKeys.errorPhoneNumber.tr();
+  static String transferPositions=LocaleKeys.transferPositions.tr();
+  static String daysNumber=LocaleKeys.daysNumber.tr();
+  static String universities=LocaleKeys.universities.tr();
+  static String name=LocaleKeys.name.tr();
+  static String programmer=LocaleKeys.programmer.tr();
 
-  static const profile=" Profile";
+  static String profile=LocaleKeys.profile.tr();
+  static String confirmPassword=LocaleKeys.confirmPassword.tr();
+  static String eConfirmPassword=LocaleKeys.eConfirmPassword.tr();
+  static String oldPassword=LocaleKeys.oldPassword.tr();
+  static String eOldPassword=LocaleKeys.eOldPassword.tr();
 
-  static const firstName=" FirstName";
-  static const lastName=" lastName";
-  static const phone=" phone";
-  static const confirmPassword="confirm password";
-  static const eConfirmPassword="Please inter your confirm password";
-
-  static const oldPassword=" old password";
-  static const eOldPassword="Please inter your old password";
-
-  static const eNewPassword="Please inter your new password";
-  static const newPassword="new password";
-
-  static const eChangePassword="Please inter your change password";
-  static const changePassword="change password";
-
-  static const save= "save";
-  static const eCities="Please inter your Cities";
-  static const cities="Cities";
-  static const eAreas="Please inter your Areas";
-  static const areas="Areas";
-  static const home="Home";
-
+  static String eNewPassword=LocaleKeys.eNewPassword.tr();
+  static String newPassword=LocaleKeys.newPassword.tr();
+  static String changePassword=LocaleKeys.changePassword.tr();
+  static String save=LocaleKeys.save.tr();
+  static String eCities=LocaleKeys.eCities.tr();
+  static String cities=LocaleKeys.cities.tr();
+  static String eAreas=LocaleKeys.eAreas.tr();
+  static String areas=LocaleKeys.areas.tr();
+  static  String home=LocaleKeys.home.tr();
+  static  String signOut=LocaleKeys.signOut.tr();
+  static  String complaints=LocaleKeys.complaints.tr();
+  static  String busSite=LocaleKeys.busSite.tr();
+  static  String  lostItems=LocaleKeys.lostItems.tr();
+  static  String  settings=LocaleKeys.settings.tr();
+  static  String  price=LocaleKeys.price.tr();
+  static  String  language=LocaleKeys.language.tr();
+  static  String  languageInfo=LocaleKeys.language.tr();
+  static  String  inviteFriends=LocaleKeys.language.tr();
+  static  String  contactUs=LocaleKeys.language.tr();
 
 
 

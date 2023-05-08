@@ -8,6 +8,7 @@
         android:label="untitled"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!--android:enableOnBackInvokedCallback="true"-->
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBVjBKNkA_4AKXa35f1oP7P_-HZNMRq7CQ" />
 

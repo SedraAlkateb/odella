@@ -75,18 +75,28 @@ Future<void>initAppModule()async{
 }
 
 Future<void>initSubscriptionModule() async{
-  if(!GetIt.I.isRegistered<SubscriptionsUseCase>()){
-    instance.registerFactory<SubscriptionsUseCase>(() =>SubscriptionsUseCase(instance()));
-    instance.registerFactory<SubscriptionViewModel>(() =>SubscriptionViewModel(instance()));
+  if(!GetIt.I.isRegistered<SubscriptionsUseCase>()) {
+    instance.registerFactory<SubscriptionsUseCase>(() =>
+        SubscriptionsUseCase(instance()));
   }
+    if(!GetIt.I.isRegistered<SubscriptionViewModel>()){
 
+      instance.registerFactory<SubscriptionViewModel>(() =>SubscriptionViewModel(instance()));
+      }
 }
 
 initHomeModule() {
+  if (!GetIt.I.isRegistered<TransportationLinesUseCase>()) {
+    instance.registerFactory<TransportationLinesUseCase>(() =>
+        TransportationLinesUseCase(instance()));
+  }
+  if (!GetIt.I.isRegistered<PositionLineUseCase>()) {
+    instance.registerFactory<PositionLineUseCase>(() =>
+        PositionLineUseCase(instance()));
+  }
   if (!GetIt.I.isRegistered<HomeViewModel>()) {
-    instance.registerFactory<TransportationLinesUseCase>(() =>TransportationLinesUseCase(instance()));
-    instance.registerFactory<PositionLineUseCase>(() =>PositionLineUseCase(instance()));
-    instance.registerFactory<HomeViewModel>(() => HomeViewModel(instance(),instance()));
+    instance.registerFactory<HomeViewModel>(() =>
+        HomeViewModel(instance(), instance()));
   }
 }
 initBaseHomeModule() {
@@ -103,7 +113,6 @@ initProfileModule() {
     instance.registerFactory<UpdateStudenttUseCase>(() =>UpdateStudenttUseCase(instance()));
     instance.registerFactory<UpdatePasswordUseCase>(() =>UpdatePasswordUseCase(instance()));
     instance.registerFactory<UpdateImageUseCase>(() =>UpdateImageUseCase(instance()));
-
     instance.registerFactory<ProfileViewModel>(() => ProfileViewModel(instance(),instance(),instance(),instance(),instance()));
   }
 }
@@ -114,17 +123,36 @@ initLogoutModule() {
   }
 }
   initRegisterModule(){
-    if(!GetIt.I.isRegistered<UniversitiesUsecase>()&&!GetIt.I.isRegistered<SubscriptionsUseCase>()&&!GetIt.I.isRegistered<TransportationLinesUseCase>()&&!GetIt.I.isRegistered<TransferPositionsUseCase>()){
-      instance.registerFactory<SubscriptionsUseCase>(() =>SubscriptionsUseCase(instance()));
-      instance.registerFactory<TransportationLinesUseCase>(() =>TransportationLinesUseCase(instance()));
-      instance.registerFactory<TransferPositionsUseCase>(() =>TransferPositionsUseCase(instance()));
-      instance.registerFactory<UniversitiesUsecase>(() =>UniversitiesUsecase(instance()));
-      instance.registerFactory<PositionLineUseCase>(() =>PositionLineUseCase(instance()));
-      instance.registerFactory<SignUpUseCase>(() =>SignUpUseCase(instance()));
-      instance.registerFactory<AreasUseCase>(() =>AreasUseCase(instance()));
-      instance.registerFactory<CitiesUseCase>(() =>CitiesUseCase(instance()));
-
+    if(!GetIt.I.isRegistered<SubscriptionsUseCase>()) {
+      instance.registerFactory<SubscriptionsUseCase>(() =>
+          SubscriptionsUseCase(instance()));
+    }
+    if(!GetIt.I.isRegistered<TransportationLinesUseCase>()) {
+      instance.registerFactory<TransportationLinesUseCase>(() =>
+          TransportationLinesUseCase(instance()));
+    }
+    if(!GetIt.I.isRegistered<TransferPositionsUseCase>()) {
+      instance.registerFactory<TransferPositionsUseCase>(() =>
+          TransferPositionsUseCase(instance()));
+    }
+    if(!GetIt.I.isRegistered<UniversitiesUsecase>()) {
+      instance.registerFactory<UniversitiesUsecase>(() =>
+          UniversitiesUsecase(instance()));
+    }
+    if(!GetIt.I.isRegistered<PositionLineUseCase>()) {
+      instance.registerFactory<PositionLineUseCase>(() =>
+          PositionLineUseCase(instance()));
+    }
+    if(!GetIt.I.isRegistered<SignUpUseCase>()) {
+      instance.registerFactory<SignUpUseCase>(() => SignUpUseCase(instance()));
       instance.registerFactory<SignUpViewModel>(() =>SignUpViewModel(instance(),instance(),instance(),instance(),instance(),instance(),instance(),instance()));
+
+    }
+    if(!GetIt.I.isRegistered<AreasUseCase>()) {
+      instance.registerFactory<AreasUseCase>(() => AreasUseCase(instance()));
+    }
+    if(!GetIt.I.isRegistered<CitiesUseCase>()) {
+      instance.registerFactory<CitiesUseCase>(() => CitiesUseCase(instance()));
     }
 
 }

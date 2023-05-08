@@ -44,7 +44,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: contentWidget(),
+      body:contentWidget()
     );
 
   }
@@ -188,7 +188,7 @@ class _ProfileViewState extends State<ProfileView> {
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              Text(
-                                 StringsManager.firstName,
+                                 StringsManager.eFirstName,
                                  style:Theme.of(context).textTheme.bodySmall
                              ),
                              Row(
@@ -234,7 +234,7 @@ class _ProfileViewState extends State<ProfileView> {
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              Text(
-                                 StringsManager.lastName,
+                                 StringsManager.eLastName,
                                  style:Theme.of(context).textTheme.bodySmall
                              ),
                              Row(
@@ -277,8 +277,8 @@ class _ProfileViewState extends State<ProfileView> {
                          Column(
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
-                             const Text(
-                               "Email",
+                              Text(
+                               StringsManager.username,
                                style: TextStyle(
                                  color: Colors.black87,
                                  fontFamily: "Montserrat",
@@ -330,7 +330,7 @@ class _ProfileViewState extends State<ProfileView> {
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
                              Text(
-                               StringsManager.phone,
+                               StringsManager.ePhoneNumber,
                                style: Theme.of(context).textTheme.bodySmall,
                              ),
                              Row(
@@ -366,7 +366,7 @@ class _ProfileViewState extends State<ProfileView> {
                        onPressed: () {
                          profile.UpdateStudent();
                      },
-                       child: const Text(StringsManager.save),
+                       child:  Text(StringsManager.save),
 
                      ),
                    ),
@@ -400,7 +400,7 @@ class _ProfileViewState extends State<ProfileView> {
                              },
                              keyboardType: TextInputType.visiblePassword,
                              controller: _p1controoler,
-                             decoration: const InputDecoration(
+                             decoration:  InputDecoration(
                                hintText: StringsManager.oldPassword,
 
                              ),
@@ -419,9 +419,8 @@ class _ProfileViewState extends State<ProfileView> {
                              },
                              keyboardType: TextInputType.visiblePassword,
                              controller: _p2controoler,
-                             decoration: const InputDecoration(
+                             decoration:  InputDecoration(
                                hintText: StringsManager.newPassword,
-
 
                              ),
                            ),
@@ -440,7 +439,7 @@ class _ProfileViewState extends State<ProfileView> {
                              },
                              keyboardType: TextInputType.emailAddress,
                              controller: _p3controoler,
-                             decoration: const InputDecoration(
+                             decoration:  InputDecoration(
                                hintText: StringsManager.confirmPassword,
 
                                //  errorText: StringsManager.usernameError,
@@ -454,7 +453,7 @@ class _ProfileViewState extends State<ProfileView> {
                              profile.updatePassword();
                            }
                          },
-                           child: const Text(StringsManager.save),
+                           child:  Text(StringsManager.save),
 
                          ),
                        ],
@@ -499,12 +498,12 @@ AppBar getAppBar(){
 
 /*
  StreamBuilder<FlowState>(
-        stream:
-        Provider.of<ProfileViewModel>(context, listen: false).outputState,
-        builder: (context, snapshot) {
-          return snapshot.data?.getScreenWidget( context, contentWidget(), () {
-            Provider.of<ProfileViewModel>(context, listen: false).start();
-          }) ??
-              contentWidget();
-        });
+          stream:
+          Provider.of<ProfileViewModel>(context, listen: false).outputState,
+          builder: (context, snapshot) {
+            return snapshot.data?.getScreenWidget( context, contentWidget(), () {
+              Provider.of<ProfileViewModel>(context, listen: false).start();
+            }) ??
+                contentWidget();
+          })
  */

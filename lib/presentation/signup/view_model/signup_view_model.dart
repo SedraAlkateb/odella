@@ -64,38 +64,7 @@ var _nnum=0;
 int getNum(){
  return _nnum;
 }
-/*
 
-popPosition(){
-  _position=[];
-  positionValue=null;
-  notifyListeners();
-}
-  popArea(){
-    _areas=[];
-    areaValue=null;
-    notifyListeners();
-
-  }
-
-setPositionValue(From value){
-    positionValue=value;
-    notifyListeners();
-}
-setAreaValue(Area value){
-areaValue=value;
-notifyListeners();
-}
-
- From? getPositionValue(){
-  return  positionValue;
-
-  }
-  Area? getAreaValue(String value){
-   return areaValue;
-
-  }
- */
 setNum(int n){
   _nnum=n;
   notifyListeners();
@@ -114,8 +83,23 @@ setNum(int n){
   }
   @override
   void dispose() {
-//    _disposed = true;
-
+     _dataModel=[];
+    _dataSubscriptions=[];
+    _dataTransferPositions=[];
+     _dataTransportationLines=[];
+    _position=[];
+    _cities=[];
+    _areas=[];
+     signUpObject= SignUpObject(2,1,"asddassad",0,"","","","","",0,0,null,0);
+      isLog=false;
+      isLin=false;
+      isSub =false;
+      isUn=false;
+      isCities=false;
+     image1=null;
+      _nnum=0;
+     positionValue=null;
+      areaValue=null;
     super.dispose();
   }
   var index1=100000;
@@ -173,15 +157,12 @@ setNum(int n){
 
  setUniversities(List<DataModel>universities ){
     _dataModel=universities;
-  //  notifyListeners();
   }
   setCities(List<City>cities ){
     _cities=cities;
-    //  notifyListeners();
   }
  setDataSubscriptions(  List<DataSubscriptions> subscription){
     _dataSubscriptions=subscription;
-    notifyListeners();
   }
    setDataTransferPositions(List<DataTransferPositions> transferPosition){
     _dataTransferPositions=transferPosition;
@@ -189,53 +170,41 @@ setNum(int n){
    }
  setDataTransportationLines( List<DataTransportationLines> transportationLines){
      _dataTransportationLines=transportationLines;
-    // notifyListeners();
   }
    setPosition( List<From> posit){
      _position=posit;
-     notifyListeners();
   }
   setAreas( List <Area> ListAreas){
     _areas=ListAreas;
-    notifyListeners();
   }
   setCityId(int cityId){
     signUpObject= signUpObject.copyWith(city_id: cityId);
-    notifyListeners();
   }
   setAreaId(int areaId){
     signUpObject= signUpObject.copyWith(area_id: areaId);
-    notifyListeners();
   }
   setStreet(String street){
     signUpObject= signUpObject.copyWith(street: street);
-    notifyListeners();
   }
   setSubscriptionId(int subscriptionId){
     signUpObject= signUpObject.copyWith(subscription_id: subscriptionId);
-    notifyListeners();
   }
   ///////////////////////////////setSignUp//////////
   setFirstName(String firstName){
     signUpObject= signUpObject.copyWith(firstName: firstName);
     print(signUpObject.firstName);
-    notifyListeners();
   }
   setLastName(String lastName){
     signUpObject= signUpObject.copyWith(lastName: lastName);
-    notifyListeners();
   }
   setEmail(String email){
     signUpObject= signUpObject.copyWith(email: email);
-    notifyListeners();
   }
   setPassword(String password){
     signUpObject= signUpObject.copyWith(password: password);
-    notifyListeners();
   }
   setPhoneNumber(String phoneNumber){
     signUpObject= signUpObject.copyWith(phoneNumber: phoneNumber);
-    notifyListeners();
   }
   settImage(File image){
     signUpObject= signUpObject.copyWith(image: image);
@@ -276,7 +245,7 @@ notifyListeners();
 
   /////////////////////async function//////////////////////////////////////////////////
   getSignUp()async{
-  //  inputState.add(LoadingState(stateRendererType: StateRendererType.popupLoadingState));
+    inputState.add(LoadingState(stateRendererType: StateRendererType.popupLoadingState));
     ( await _signUpUseCase.execute(
         SignUpCaseInput(signUpObject.city_id, signUpObject.area_id, signUpObject.street, signUpObject.subscription_id,
             signUpObject.firstName, signUpObject.lastName, signUpObject.email, signUpObject.password,
@@ -286,11 +255,11 @@ notifyListeners();
     ))
         .fold(
             (failure)  {
-    //      inputState.add(ErrorState(StateRendererType.popupErrorState, failure.massage));
+          inputState.add(ErrorState(StateRendererType.popupErrorState, failure.massage));
         },
             (data)  {
+              inputState.add(ContentState());
               isLog=true;
-             // inputState.add(ContentState());
           notifyListeners();
         });
 
@@ -301,11 +270,12 @@ notifyListeners();
     ( await _positionLineUseCase.execute(id))
         .fold(
             (failure)  {
-      //    inputState.add(ErrorState(StateRendererType.fullScreenErrorState, failure.massage));
+     //     inputState.add(ErrorState(StateRendererType.fullScreenErrorState, failure.massage));
         },
             (data)  {
       //    inputState.add(ContentState());
           setPosition(data.positionLine);
+          inputState.add(ContentState());
           notifyListeners();
         });
 
@@ -371,12 +341,16 @@ notifyListeners();
     return false;
   }
   getAllInf()async{
-//    inputState.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState));
+    inputState.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState));
     ( get()).then(
             (value){
           if(value) {
             print(isLin && isSub && isUn && isCities);
-  //          inputState.add(ContentState());
+            inputState.add(ContentState());
+            notifyListeners();
+          }else{
+            inputState.add(ErrorState(StateRendererType.fullScreenErrorState,"something worng"));
+
           }
         }
 
@@ -388,10 +362,10 @@ notifyListeners();
     ( await _areasUseCase.execute(id))
         .fold(
             (failure)  {
-    //      inputState.add(ErrorState(StateRendererType.fullScreenErrorState, failure.massage));
+      //    inputState.add(ErrorState(StateRendererType.fullScreenErrorState, failure.massage));
         },
             (data)  {
-          //    inputState.add(ContentState());
+             inputState.add(ContentState());
           setAreas(data.areas!);
           notifyListeners();
         });

@@ -118,5 +118,6 @@ abstract class AppServiceClient {
    */
   @POST("/api/auth/logout")
   Future<LogOutResponse> logout();
-
+  @GET("/api/programs")
+  Future<ProgramResponse> programs();
 }

@@ -893,19 +893,11 @@ class DataTransferPositionsResponse {
 
   @JsonKey(name: "id")
   int? id;
-  @JsonKey(name: "name_ar")
-  String? name_ar;
-  @JsonKey(name: "name_en")
-  String? name_en;
-  @JsonKey(name: "created_at")
-  String? created_at;
-  @JsonKey(name: "updated_at")
-  String? updated_at;
+  @JsonKey(name: "name")
+  String? name;
 
 
-
-  DataTransferPositionsResponse(this.id, this.name_ar, this.name_en, this.created_at,
-      this.updated_at);
+  DataTransferPositionsResponse(this.id, this.name);
 
   factory DataTransferPositionsResponse.fromJson(Map<String,dynamic> json ) =>
       _$DataTransferPositionsResponseFromJson(json);
@@ -917,19 +909,136 @@ class DataTransferPositionsResponse {
 }
 
 
+
+@JsonSerializable()
+class TransferPositionsDataMainResponse  {
+  @JsonKey(name:"data")
+  List<DataTransferPositionsResponse>? transferPositionsDataResponse;
+  @JsonKey(name:"current_page")
+  int? current_page;
+  @JsonKey(name:"first_page_url")
+  String? first_page_url;
+  @JsonKey(name:"from")
+  int? from;
+  @JsonKey(name:"last_page")
+  int? last_page;
+  @JsonKey(name:"last_page_url")
+  String? last_page_url;
+
+  @JsonKey(name:"next_page_url")
+  String? next_page_url;
+  @JsonKey(name:"path")
+  String? path;
+  @JsonKey(name:"prev_page_url")
+  String? prev_page_url;
+  @JsonKey(name:"per_page")
+  int? per_page;
+  @JsonKey(name:"to")
+  int? to;
+  @JsonKey(name:"total")
+  int? total;
+  @JsonKey(name:"links")
+  List<LinkResponse>? links;
+
+  TransferPositionsDataMainResponse(
+      this.transferPositionsDataResponse,
+      this.current_page,
+      this.first_page_url,
+      this.from,
+      this.last_page,
+      this.last_page_url,
+      this.next_page_url,
+      this.path,
+      this.prev_page_url,
+      this.per_page,
+      this.to,
+      this.total,
+      this.links); // from json
+  factory TransferPositionsDataMainResponse.fromJson(Map<String,dynamic>json)=>
+      _$TransferPositionsDataMainResponseFromJson(json);
+
+  // to json
+  Map<String,dynamic>toJson()=>
+      _$TransferPositionsDataMainResponseToJson(this);
+
+}
+
+
+
 @JsonSerializable()
 class TransferPositionsResponse  extends BaseResponse{
   @JsonKey(name:"data")
-  List<DataTransferPositionsResponse>? dataTransferPositionsResponse;
+  TransferPositionsDataMainResponse? transferPositionsDataMainResponse;
 
-  TransferPositionsResponse(this.dataTransferPositionsResponse);
+  TransferPositionsResponse(this.transferPositionsDataMainResponse);
 
-  // from json
   factory TransferPositionsResponse.fromJson(Map<String,dynamic>json)=>
       _$TransferPositionsResponseFromJson(json);
 
   // to json
   Map<String,dynamic>toJson()=>
       _$TransferPositionsResponseToJson(this);
+
+}
+
+@JsonSerializable()
+class DataDayResponse {
+
+  @JsonKey(name: "name")
+  String? name;
+
+
+  DataDayResponse (this.name);
+
+  factory DataDayResponse.fromJson(Map<String,dynamic> json ) =>
+      _$DataDayResponseFromJson(json);
+
+//to json
+  Map<String,dynamic> toJson()=>
+      _$DataDayResponseToJson(this);
+
+}
+
+@JsonSerializable()
+class DayProgramResponse {
+
+  @JsonKey(name: "day")
+  DataDayResponse? day;
+  @JsonKey(name: "transfer_position")
+  DataTransferPositionsResponse? transfer_position;
+  @JsonKey(name: "start")
+  String? start;
+  @JsonKey(name: "end")
+  String? end;
+  @JsonKey(name: "confirmAttendance1")
+  String? confirmAttendance1;
+  @JsonKey(name: "confirmAttendance2")
+  String? confirmAttendance2;
+
+
+  DayProgramResponse(this.day, this.transfer_position, this.start, this.end,
+      this.confirmAttendance1, this.confirmAttendance2);
+
+  factory DayProgramResponse.fromJson(Map<String,dynamic> json ) =>
+      _$DayProgramResponseFromJson(json);
+
+//to json
+  Map<String,dynamic> toJson()=>
+      _$DayProgramResponseToJson(this);
+
+}
+@JsonSerializable()
+class ProgramResponse extends BaseResponse{
+List<DayProgramResponse>? dayProgramResponse;
+
+
+ProgramResponse(this.dayProgramResponse);
+
+  factory ProgramResponse.fromJson(Map<String,dynamic> json ) =>
+      _$ProgramResponseFromJson(json);
+
+//to json
+  Map<String,dynamic> toJson()=>
+      _$ProgramResponseToJson(this);
 
 }

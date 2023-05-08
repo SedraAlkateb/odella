@@ -18,22 +18,29 @@ class PagesView extends StatelessWidget  {
       topRight: Radius.circular(AppSize.s28),
       topLeft: Radius.circular(AppSize.s28),
       ),child:
-    BottomNavigationBar(
-        fixedColor: ColorManager.white,
-      backgroundColor: ColorManager.icon1,
-        currentIndex: mp.selectedIndex,
-        elevation: AppSize.s60,
-        onTap: (i){
-          mp.selectedIndex = i;
-        },
-        items: mp.items
-            .map((e) =>
-            BottomNavigationBarItem(icon: Icon(e.iconData), label: e.label))
-            .toList(),
-      ),),
+    Container(
+
+
+
+       color: Colors.black,
+      child: BottomNavigationBar(
+        selectedItemColor: ColorManager.black,
+
+          unselectedItemColor: ColorManager.black,
+          currentIndex: mp.selectedIndex,
+          elevation: AppSize.s60,
+          onTap: (i){
+            mp.selectedIndex = i;
+          },
+          items: mp.items
+              .map((e) =>
+              BottomNavigationBarItem(icon: Icon(e.iconData), label: e.label))
+              .toList(),
+        ),
+    ),),
 
       body: IndexedStack(
-        index: mp.selectedIndex,
+        index: Provider.of<NavbarProvider>(context).selectedIndex,
         children: mp.items.map((e) => e.widget!).toList(),
       ),
 

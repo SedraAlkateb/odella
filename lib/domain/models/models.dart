@@ -118,10 +118,9 @@ TransferPositions(this.dataTransfer);
 }
 class DataTransferPositions{
   int id;
-  String name_ar;
-  String name_en;
+  String name;
 
-  DataTransferPositions(this.id, this.name_ar, this.name_en);
+  DataTransferPositions(this.id, this.name);
 }
 
 class PositionLine{
@@ -211,7 +210,25 @@ class LocationModel{
 }
 class Location{
   String city;
-  String Area;
+  String area;
   String street;
-  Location(this.city, this.Area, this.street);
+  Location(this.city, this.area, this.street);
+}
+////////////////////programs//////////////
+
+class Program {
+  List<DataProgram> dataProgram;
+
+  Program(this.dataProgram);
+}
+class DataProgram{
+  String day;
+  DataTransferPositions? dataTransferPositions;
+  String start ;
+  String end ;
+  String confirmAttendance1 ;
+  String confirmAttendance2 ;
+
+  DataProgram(this.day, this.dataTransferPositions, this.start, this.end,
+      this.confirmAttendance1, this.confirmAttendance2);
 }

@@ -731,29 +731,64 @@ DataTransferPositionsResponse _$DataTransferPositionsResponseFromJson(
         Map<String, dynamic> json) =>
     DataTransferPositionsResponse(
       json['id'] as int?,
-      json['name_ar'] as String?,
-      json['name_en'] as String?,
-      json['created_at'] as String?,
-      json['updated_at'] as String?,
+      json['name'] as String?,
     );
 
 Map<String, dynamic> _$DataTransferPositionsResponseToJson(
         DataTransferPositionsResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name_ar': instance.name_ar,
-      'name_en': instance.name_en,
-      'created_at': instance.created_at,
-      'updated_at': instance.updated_at,
+      'name': instance.name,
+    };
+
+TransferPositionsDataMainResponse _$TransferPositionsDataMainResponseFromJson(
+        Map<String, dynamic> json) =>
+    TransferPositionsDataMainResponse(
+      (json['data'] as List<dynamic>?)
+          ?.map((e) =>
+              DataTransferPositionsResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['current_page'] as int?,
+      json['first_page_url'] as String?,
+      json['from'] as int?,
+      json['last_page'] as int?,
+      json['last_page_url'] as String?,
+      json['next_page_url'] as String?,
+      json['path'] as String?,
+      json['prev_page_url'] as String?,
+      json['per_page'] as int?,
+      json['to'] as int?,
+      json['total'] as int?,
+      (json['links'] as List<dynamic>?)
+          ?.map((e) => LinkResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$TransferPositionsDataMainResponseToJson(
+        TransferPositionsDataMainResponse instance) =>
+    <String, dynamic>{
+      'data': instance.transferPositionsDataResponse,
+      'current_page': instance.current_page,
+      'first_page_url': instance.first_page_url,
+      'from': instance.from,
+      'last_page': instance.last_page,
+      'last_page_url': instance.last_page_url,
+      'next_page_url': instance.next_page_url,
+      'path': instance.path,
+      'prev_page_url': instance.prev_page_url,
+      'per_page': instance.per_page,
+      'to': instance.to,
+      'total': instance.total,
+      'links': instance.links,
     };
 
 TransferPositionsResponse _$TransferPositionsResponseFromJson(
         Map<String, dynamic> json) =>
     TransferPositionsResponse(
-      (json['data'] as List<dynamic>?)
-          ?.map((e) =>
-              DataTransferPositionsResponse.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      json['data'] == null
+          ? null
+          : TransferPositionsDataMainResponse.fromJson(
+              json['data'] as Map<String, dynamic>),
     )
       ..status = json['status'] as int?
       ..massage = json['message'] as String?;
@@ -763,5 +798,56 @@ Map<String, dynamic> _$TransferPositionsResponseToJson(
     <String, dynamic>{
       'status': instance.status,
       'message': instance.massage,
-      'data': instance.dataTransferPositionsResponse,
+      'data': instance.transferPositionsDataMainResponse,
+    };
+
+DataDayResponse _$DataDayResponseFromJson(Map<String, dynamic> json) =>
+    DataDayResponse(
+      json['name'] as String?,
+    );
+
+Map<String, dynamic> _$DataDayResponseToJson(DataDayResponse instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
+DayProgramResponse _$DayProgramResponseFromJson(Map<String, dynamic> json) =>
+    DayProgramResponse(
+      json['day'] == null
+          ? null
+          : DataDayResponse.fromJson(json['day'] as Map<String, dynamic>),
+      json['transfer_position'] == null
+          ? null
+          : DataTransferPositionsResponse.fromJson(
+              json['transfer_position'] as Map<String, dynamic>),
+      json['start'] as String?,
+      json['end'] as String?,
+      json['confirmAttendance1'] as String?,
+      json['confirmAttendance2'] as String?,
+    );
+
+Map<String, dynamic> _$DayProgramResponseToJson(DayProgramResponse instance) =>
+    <String, dynamic>{
+      'day': instance.day,
+      'transfer_position': instance.transfer_position,
+      'start': instance.start,
+      'end': instance.end,
+      'confirmAttendance1': instance.confirmAttendance1,
+      'confirmAttendance2': instance.confirmAttendance2,
+    };
+
+ProgramResponse _$ProgramResponseFromJson(Map<String, dynamic> json) =>
+    ProgramResponse(
+      (json['dayProgramResponse'] as List<dynamic>?)
+          ?.map((e) => DayProgramResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    )
+      ..status = json['status'] as int?
+      ..massage = json['message'] as String?;
+
+Map<String, dynamic> _$ProgramResponseToJson(ProgramResponse instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'message': instance.massage,
+      'dayProgramResponse': instance.dayProgramResponse,
     };
