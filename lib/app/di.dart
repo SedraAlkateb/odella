@@ -1,0 +1,130 @@
+
+import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:odella_master/app/app_preferences.dart';
+import 'package:odella_master/data/data_source/remote_data_source.dart';
+import 'package:odella_master/data/network/app_api.dart';
+import 'package:odella_master/data/network/dio_factory.dart';
+import 'package:odella_master/data/network/network_info.dart';
+import 'package:odella_master/data/repository/repository.dart';
+import 'package:odella_master/domain/repostitory/repository.dart';
+import 'package:odella_master/domain/usecase/Universities_usecase.dart';
+import 'package:odella_master/domain/usecase/areas_usecase.dart';
+import 'package:odella_master/domain/usecase/cities_usecase.dart';
+import 'package:odella_master/domain/usecase/login_usecase.dart';
+import 'package:odella_master/domain/usecase/logout_usecase.dart';
+import 'package:odella_master/domain/usecase/position_line_usecase.dart';
+import 'package:odella_master/domain/usecase/posts_usecase.dart';
+import 'package:odella_master/domain/usecase/profile_usecase.dart';
+import 'package:odella_master/domain/usecase/signup_usecase.dart';
+import 'package:odella_master/domain/usecase/subscriptions_usecase.dart';
+import 'package:odella_master/domain/usecase/transfer_positions_usecase.dart';
+import 'package:odella_master/domain/usecase/transportation_lines_usecase.dart';
+import 'package:odella_master/domain/usecase/tt.dart';
+import 'package:odella_master/domain/usecase/update_image_usecase.dart';
+import 'package:odella_master/domain/usecase/update_password_usecase.dart';
+import 'package:odella_master/domain/usecase/update_student_usecase.dart';
+import 'package:odella_master/presentation/base_home/view_model/base_home_view_model.dart';
+import 'package:odella_master/presentation/login/view_model/login_viewmodel.dart';
+import 'package:odella_master/presentation/map_position/view_model/map_position_view_model.dart';
+import 'package:odella_master/presentation/page/drawer/view/drawer_viewmodel.dart';
+import 'package:odella_master/presentation/page/home/view_model/home_view_model.dart';
+import 'package:odella_master/presentation/page/profile/view_model/profile_view_model.dart';
+import 'package:odella_master/presentation/signup/view_model/signup_view_model.dart';
+import 'package:odella_master/presentation/subscription/view_model/subscription_view_model.dart';
+
+GetIt instance=GetIt.instance;
+
+Future<void>initAppModule()async{
+  //app module itd a module where are put all generic dependencies
+  //shared prefs instance
+  final sharedPrefs = await SharedPreferences.getInstance();
+  instance.registerLazySingleton<SharedPreferences>(() =>
+  sharedPrefs);
+  //app prefs instance
+  instance.
+  registerLazySingleton<AppPreferences>(() =>
+      AppPreferences(instance()));
+  //network info instance
+  instance.registerLazySingleton<NetworkInfo>(() =>
+      NetWorkInfoImpl(InternetConnectionChecker()));
+  instance.registerLazySingleton<DioFactory>(() =>
+      DioFactory(instance()));
+
+  Dio dio =await instance<DioFactory>().getDio();
+  instance.registerLazySingleton<AppServiceClient>(() =>
+      AppServiceClient(dio));
+
+  //remote data source
+  instance.registerLazySingleton<RemoteDataSource>(() =>
+      RemoteDataSourceImpl(instance<AppServiceClient>()));
+  //repository
+  instance.registerLazySingleton<Repository>(() =>
+      RepositoryImp(
+          instance()) );
+}
+    Future<void>initLoginModule() async{
+  if(!GetIt.I.isRegistered<LoginUseCase>()){
+    instance.registerFactory<LoginUseCase>(() =>LoginUseCase(instance()));
+    instance.registerFactory<LoginViewModel>(() =>LoginViewModel(instance()));
+
+  }
+
+}
+
+Future<void>initSubscriptionModule() async{
+  if(!GetIt.I.isRegistered<SubscriptionsUseCase>()){
+    instance.registerFactory<SubscriptionsUseCase>(() =>SubscriptionsUseCase(instance()));
+    instance.registerFactory<SubscriptionViewModel>(() =>SubscriptionViewModel(instance()));
+  }
+
+}
+
+initHomeModule() {
+  if (!GetIt.I.isRegistered<HomeViewModel>()) {
+    instance.registerFactory<TransportationLinesUseCase>(() =>TransportationLinesUseCase(instance()));
+    instance.registerFactory<PositionLineUseCase>(() =>PositionLineUseCase(instance()));
+    instance.registerFactory<HomeViewModel>(() => HomeViewModel(instance(),instance()));
+  }
+}
+initBaseHomeModule() {
+  if (!GetIt.I.isRegistered<TransportationLinesUseCase>()&&!GetIt.I.isRegistered<PositionLineUseCase>()) {
+    instance.registerFactory<TransportationLinesUseCase>(() =>TransportationLinesUseCase(instance()));
+    instance.registerFactory<PositionLineUseCase>(() =>PositionLineUseCase(instance()));
+    instance.registerFactory<BaseHomeViewModel>(() => BaseHomeViewModel(instance(),instance()));
+  }
+}
+initProfileModule() {
+  if (!GetIt.I.isRegistered<ProfileUseCase>()) {
+    instance.registerFactory<ProfileUseCase>(() =>ProfileUseCase(instance()));
+    instance.registerFactory<UpdateStudentUseCase>(() =>UpdateStudentUseCase(instance()));
+    instance.registerFactory<UpdateStudenttUseCase>(() =>UpdateStudenttUseCase(instance()));
+    instance.registerFactory<UpdatePasswordUseCase>(() =>UpdatePasswordUseCase(instance()));
+    instance.registerFactory<UpdateImageUseCase>(() =>UpdateImageUseCase(instance()));
+
+    instance.registerFactory<ProfileViewModel>(() => ProfileViewModel(instance(),instance(),instance(),instance(),instance()));
+  }
+}
+initLogoutModule() {
+  if (!GetIt.I.isRegistered<LogoutUseCase>()) {
+    instance.registerFactory<LogoutUseCase>(() =>LogoutUseCase(instance()));
+    instance.registerFactory<DrawerViewModel>(() => DrawerViewModel(instance()));
+  }
+}
+  initRegisterModule(){
+    if(!GetIt.I.isRegistered<UniversitiesUsecase>()&&!GetIt.I.isRegistered<SubscriptionsUseCase>()&&!GetIt.I.isRegistered<TransportationLinesUseCase>()&&!GetIt.I.isRegistered<TransferPositionsUseCase>()){
+      instance.registerFactory<SubscriptionsUseCase>(() =>SubscriptionsUseCase(instance()));
+      instance.registerFactory<TransportationLinesUseCase>(() =>TransportationLinesUseCase(instance()));
+      instance.registerFactory<TransferPositionsUseCase>(() =>TransferPositionsUseCase(instance()));
+      instance.registerFactory<UniversitiesUsecase>(() =>UniversitiesUsecase(instance()));
+      instance.registerFactory<PositionLineUseCase>(() =>PositionLineUseCase(instance()));
+      instance.registerFactory<SignUpUseCase>(() =>SignUpUseCase(instance()));
+      instance.registerFactory<AreasUseCase>(() =>AreasUseCase(instance()));
+      instance.registerFactory<CitiesUseCase>(() =>CitiesUseCase(instance()));
+
+      instance.registerFactory<SignUpViewModel>(() =>SignUpViewModel(instance(),instance(),instance(),instance(),instance(),instance(),instance(),instance()));
+    }
+
+}
