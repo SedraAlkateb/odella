@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/app/extentions.dart';
 import 'package:untitled/domain/models/models.dart';
 import 'package:untitled/domain/usecase/position_line_usecase.dart';
 import 'package:untitled/presentation/base/base_view_model.dart';
-import 'package:untitled/presentation/common/state_renderer/state_renderer.dart';
-import 'package:untitled/presentation/common/state_renderer/state_renderer_imp.dart';
-
 import '../../../../domain/usecase/transportation_lines_usecase.dart';
 
 class BaseHomeViewModel extends BaseViewModel with ChangeNotifier{

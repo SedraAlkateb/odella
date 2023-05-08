@@ -21,6 +21,7 @@ Future<SubscriptionsResponse>getSubscriptions();
   Future<LogOutResponse>logout();
   Future<UpdateStResponse> updatePassword(UpdatePasswordRequest  updatePasswordRequest);
   Future<UpdateStResponse> updateImage(UpdateImage  updateImage);
+  Future<ProgramResponse> programs();
 
 }
 
@@ -161,6 +162,12 @@ return  await _appServiceClient.updateStudent(
        updateImage.image
     );
   }
+
+  @override
+  Future<ProgramResponse> programs()async {
+    return await _appServiceClient.programs();
+  }
+
 }
 
 

@@ -17,6 +17,7 @@ class ColorManager{
   static Color icon1 =const Color(0xA6279BB5) ;
   static Color sidBar =const Color(0xA6279BB5) ;
   static Color profile =const Color(0x26279BB5) ;
+  static Color side =const Color(0xFF279BB5) ;
 
   static Color shadowCard =const Color(0x1A279BB5) ;
 

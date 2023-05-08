@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/presentation/resources/language_manager.dart';
 
@@ -19,6 +21,25 @@ class  AppPreferences{
       }
 
 
+  }
+  Future<void> changeAppLanguage()async{
+     String currentLang= await getAppLanguage();
+     if(currentLang==LanguageType.ARABIC.getValue()){
+       _sharedPreferences.setString(PREFS_KEY_LANG, LanguageType.ENGLISH.getValue());
+     }else{
+       _sharedPreferences.setString(PREFS_KEY_LANG, LanguageType.ARABIC.getValue());
+
+     }
+  }
+
+
+  Future<Locale> getLocale()async{
+    String currentLang= await getAppLanguage();
+    if(currentLang==LanguageType.ARABIC.getValue()){
+      return ARABIC_LOCALE;
+    }else{
+     return ENGLISH_LOCALE;
+    }
   }
   // on board is logging
 Future<bool> setLoggedIn(String token)async{
@@ -49,5 +70,6 @@ return true;
     await _sharedPreferences.remove(PREFS_KEY_LS_USER_LOGGED_IN);
 
   }
+
 
 }

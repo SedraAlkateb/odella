@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -5,11 +6,12 @@ import 'package:untitled/app/di.dart';
 import 'package:untitled/presentation/common/state_renderer/state_renderer_imp.dart';
 import 'package:untitled/presentation/resources/assets_manager.dart';
 import 'package:untitled/presentation/resources/color_manager.dart';
+import 'package:untitled/presentation/resources/language_manager.dart';
 import 'package:untitled/presentation/resources/routes_manager.dart';
 import 'package:untitled/presentation/resources/strings_manager.dart';
 import 'package:untitled/presentation/resources/values_manager.dart';
 import 'package:untitled/presentation/signup/view_model/signup_view_model.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:math'as math;
 class SignUpView extends StatefulWidget {
   @override
   State<SignUpView> createState() => _SignUpViewState();
@@ -22,29 +24,37 @@ class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
-  SignUpViewModel _signUpViewModel=instance();
+  SignUpViewModel _signUpViewModel = instance<SignUpViewModel>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      _signUpViewModel=  Provider.of<SignUpViewModel>(context, listen: false);
-      _signUpViewModel.start();
+      Provider.of<SignUpViewModel>(context, listen: false).start();
     });
     super.initState();
   }
 
   @override
+  void dispose() {
+    _signUpViewModel.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:_getContentWidget(context)
+      key: _scaffoldKey,
+      body:
+    _getContentWidget()
     );
   }
 
-  Widget _getContentWidget(BuildContext context) {
-    var _register2 = Provider.of<SignUpViewModel>(context, listen: false);
+  Widget _getContentWidget() {
     var _register1 = Provider.of<SignUpViewModel>(context);
-    if (_register2.isLog == true) {
+    if (Provider.of<SignUpViewModel>(context).isLog == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _register2.isLog = false;
+        Provider.of<SignUpViewModel>(context, listen: false).isLog = false;
         Navigator.pushNamed(context, Routes.afterSignUp);
       });
     }
@@ -58,7 +68,6 @@ class _SignUpViewState extends State<SignUpView> {
               child: Stack(
                 alignment: Alignment.topLeft,
                 children: [
-
                   ClipRRect(
                       borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(AppSize.s50),
@@ -68,77 +77,105 @@ class _SignUpViewState extends State<SignUpView> {
                         color: ColorManager.icon,
                         width: double.infinity,
                         //    height: double.maxFinite,
-                        child: Provider.of<SignUpViewModel>(context).getImage() !=
-                                null
-                            ? Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: AppPadding.p50),
-                                child: InkWell(
-                                  onTap: () => _register2.setImageFromGallory(),
-                                  child: Container(
-                                      width: 160.0,
-                                      height: 160.0,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.grey[300],
-                                          image: DecorationImage(
-                                            fit: BoxFit.contain,
-                                            image: FileImage(
-                                              Provider.of<SignUpViewModel>(context)
-                                                  .getImage()!,
-                                            ),
-                                          ))),
-                                ),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: AppPadding.p50),
-                                child: InkWell(
-                                  onTap: () => _register2.setImageFromGallory(),
-                                  child: Container(
-                                      width: 160,
-                                      height: 160,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[300],
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: const Icon(Icons.add,
-                                          size: 50, color: Color(0xFFFFFFFF))),
-                                ),
-                              ),
+                        child:
+                            Provider.of<SignUpViewModel>(context).getImage() !=
+                                    null
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: AppPadding.p50),
+                                    child: InkWell(
+                                      onTap: () => Provider.of<SignUpViewModel>(
+                                              context,
+                                              listen: false)
+                                          .setImageFromGallory(),
+                                      child: Container(
+                                          width: 160.0,
+                                          height: 160.0,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.grey[300],
+                                              image: DecorationImage(
+                                                fit: BoxFit.contain,
+                                                image: FileImage(
+                                                  Provider.of<SignUpViewModel>(
+                                                          context)
+                                                      .getImage()!,
+                                                ),
+                                              ))),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: AppPadding.p50),
+                                    child: InkWell(
+                                      onTap: () => Provider.of<SignUpViewModel>(
+                                              context,
+                                              listen: false)
+                                          .setImageFromGallory(),
+                                      child: Container(
+                                          width: 160,
+                                          height: 160,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[300],
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Icon(Icons.add,
+                                              size: 50,
+                                              color: Color(0xFFFFFFFF))),
+                                    ),
+                                  ),
                       )),
-                  _register2.getNum() == 2
-
+                  Provider.of<SignUpViewModel>(context, listen: false)
+                              .getNum() ==
+                          2
                       ? Padding(
-                        padding: const EdgeInsets.only(top: AppPadding.p16,left: AppPadding.p8),
-                        child: IconButton(
-                        onPressed: () {
-                          _register2.setNum(1);
-
-                        },
-                        icon: Icon(Icons.west,color: ColorManager.gr,)
-
-                  ),
-                      ):Container(),
+                          padding: const EdgeInsets.only(
+                              top: AppPadding.p16, left: AppPadding.p8),
+                          child: IconButton(
+                              onPressed: () {
+                                Provider.of<SignUpViewModel>(context,
+                                        listen: false)
+                                    .setNum(1);
+                              },
+                              icon: Icon(
+                                Icons.west,
+                                color: ColorManager.gr,
+                              )),
+                        )
+                      : Container(),
                 ],
               ),
             ),
-            _register2.getNum() == 0
+            Provider.of<SignUpViewModel>(context, listen: false).getNum() == 0
                 ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
                             left: AppPadding.p28,
                             right: AppPadding.p28,
                             bottom: AppPadding.p28,
-                            top: AppPadding.p60),
+                            top: AppPadding.p28),
+                        child: Text(
+                          StringsManager.signUp,
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: AppPadding.p28,
+                          right: AppPadding.p28,
+                          bottom: AppPadding.p28,
+                        ),
                         child: TextFormField(
                           controller: _firstNameController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return StringsManager.errorFirstName;
                             } else {
-                              _register2.setFirstName(value);
+                              Provider.of<SignUpViewModel>(context,
+                                      listen: false)
+                                  .setFirstName(value);
                             }
                             return null;
                           },
@@ -163,7 +200,9 @@ class _SignUpViewState extends State<SignUpView> {
                             if (value!.isEmpty) {
                               return StringsManager.errorLastName;
                             } else {
-                              _register2.setLastName(value);
+                              Provider.of<SignUpViewModel>(context,
+                                      listen: false)
+                                  .setLastName(value);
                             }
                             return null;
                           },
@@ -190,13 +229,15 @@ class _SignUpViewState extends State<SignUpView> {
                             if (value!.isEmpty) {
                               return StringsManager.errorEmail;
                             } else {
-                              _register2.setEmail(value);
+                              Provider.of<SignUpViewModel>(context,
+                                      listen: false)
+                                  .setEmail(value);
                             }
                             return null;
                           },
                           decoration: InputDecoration(
-                            hintText: StringsManager.eEmail,
-                            labelText: StringsManager.eEmail,
+                            hintText: StringsManager.username,
+                            labelText: StringsManager.username,
                             prefixIcon: Icon(
                               Icons.email,
                               color: ColorManager.kMainColor,
@@ -217,13 +258,15 @@ class _SignUpViewState extends State<SignUpView> {
                             if (value!.isEmpty) {
                               return StringsManager.errorPassword;
                             } else {
-                              _register2.setPassword(value);
+                              Provider.of<SignUpViewModel>(context,
+                                      listen: false)
+                                  .setPassword(value);
                             }
                             return null;
                           },
                           decoration: InputDecoration(
-                            hintText: StringsManager.ePassword,
-                            labelText: StringsManager.ePassword,
+                            hintText: StringsManager.password,
+                            labelText: StringsManager.password,
                             prefixIcon: Icon(
                               Icons.lock,
                               color: ColorManager.kMainColor,
@@ -244,7 +287,9 @@ class _SignUpViewState extends State<SignUpView> {
                             if (value!.isEmpty) {
                               return StringsManager.errorPhoneNumber;
                             } else {
-                              _register2.setPhoneNumber(value);
+                              Provider.of<SignUpViewModel>(context,
+                                      listen: false)
+                                  .setPhoneNumber(value);
                             }
                             return null;
                           },
@@ -265,7 +310,11 @@ class _SignUpViewState extends State<SignUpView> {
                         child: InkWell(
                           onTap: () {
                             if (_globalKey.currentState!.validate()) {
-                              _register2.setNum(1);
+
+                                Provider.of<SignUpViewModel>(context,
+                                        listen: false)
+                                    .setNum(1);
+
                             }
                           },
                           child: Align(
@@ -283,8 +332,9 @@ class _SignUpViewState extends State<SignUpView> {
                       ),
                     ],
                   )
-                : _register2.getNum() == 1
+                : Provider.of<SignUpViewModel>(context).getNum() == 1
                     ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(
@@ -310,7 +360,7 @@ class _SignUpViewState extends State<SignUpView> {
                                   child: DropdownButtonFormField(
                                       icon:
                                           const Icon(Icons.keyboard_arrow_down),
-                                      hint: const Text(
+                                      hint: Text(
                                           StringsManager.transportationLines),
                                       validator: (value) {
                                         if (value == null) {
@@ -324,45 +374,44 @@ class _SignUpViewState extends State<SignUpView> {
                                           .map((e) => DropdownMenuItem(
                                                 value: e.id,
                                                 child: Text(" ${e.name}"),
-
                                               ))
                                           .toList(),
                                       onChanged: (val) {
-                                        _register2
-                                            .setTransportationLineId(val!);
                                         Provider.of<SignUpViewModel>(context,
                                                 listen: false)
-                                            .getPositionLineData(val);
+                                            .setTransportationLineId(val!);
+                                          Provider.of<SignUpViewModel>(context,
+                                                  listen: false)
+                                              .getPositionLineData(val);
+
                                       }),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       bottom: AppPadding.p28),
                                   child: DropdownButtonFormField(
-                                      icon:
-                                          const Icon(Icons.keyboard_arrow_down),
-                                      hint: const Text(
-                                          StringsManager.transferPositions),
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return StringsManager
-                                              .transferPositions;
-                                        }
-                                        return null;
-                                      },
-                                      items: _register1
-                                          .getPosition()
-                                          .map((e) => DropdownMenuItem(
-                                                value: e,
-                                                child: Text(" ${e.name}"),
-                                              ))
-                                          .toList(),
-
-                                      onChanged: (val) {
-                                        _register2.setTransferPositionId(val!.id);
-
-                                      },
-                                      ),
+                                    icon: const Icon(Icons.keyboard_arrow_down),
+                                    hint:
+                                        Text(StringsManager.transferPositions),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return StringsManager.transferPositions;
+                                      }
+                                      return null;
+                                    },
+                                    items: _register1
+                                        .getPosition()
+                                        .map((e) => DropdownMenuItem(
+                                              value: e,
+                                              child: Text(" ${e.name}"),
+                                            ))
+                                        .toList(),
+                                    onChanged: (val) {
+                                      Provider.of<SignUpViewModel>(context,
+                                              listen: false)
+                                          .setTransferPositionId(val!.id);
+                                    },
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
@@ -370,8 +419,7 @@ class _SignUpViewState extends State<SignUpView> {
                                   child: DropdownButtonFormField(
                                       icon:
                                           const Icon(Icons.keyboard_arrow_down),
-                                      hint: const Text(
-                                          StringsManager.universities),
+                                      hint: Text(StringsManager.universities),
                                       validator: (value) {
                                         if (value == null) {
                                           return StringsManager.universities;
@@ -386,45 +434,46 @@ class _SignUpViewState extends State<SignUpView> {
                                               ))
                                           .toList(),
                                       onChanged: (val) {
-                                        _register2.setUniversityId(val!);
+                                        Provider.of<SignUpViewModel>(context,
+                                                listen: false)
+                                            .setUniversityId(val!);
                                       }),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: AppPadding.p28
-                                  ),child: Container(
-                                  width: double.infinity,
-                                  height: AppSize.s0_5,
-                                  color: ColorManager.icon,
-                                ),
+                                      vertical: AppPadding.p28),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: AppSize.s0_5,
+                                    color: ColorManager.icon,
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       bottom: AppPadding.p28),
                                   child: DropdownButtonFormField(
                                       icon:
-                                      const Icon(Icons.keyboard_arrow_down),
-                                      hint: const Text(
-                                          StringsManager.cities),
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      hint: Text(StringsManager.cities),
                                       validator: (value) {
                                         if (value == null) {
-                                          return StringsManager
-                                              .eCities;
+                                          return StringsManager.eCities;
                                         }
                                         //  return null;
                                       },
                                       items: _register1
                                           .getCities()
                                           .map((e) => DropdownMenuItem(
-                                        value: e.id,
-                                        child: Text(" ${e.name}"),
-                                      ))
+                                                value: e.id,
+                                                child: Text(" ${e.name}"),
+                                              ))
                                           .toList(),
                                       onChanged: (val) {
-                                        _register2
+                                        Provider.of<SignUpViewModel>(context,
+                                                listen: false)
                                             .setCityId(val!);
                                         Provider.of<SignUpViewModel>(context,
-                                            listen: false)
+                                                listen: false)
                                             .getAreasByIdCity(val);
                                       }),
                                 ),
@@ -433,26 +482,24 @@ class _SignUpViewState extends State<SignUpView> {
                                       bottom: AppPadding.p28),
                                   child: DropdownButtonFormField(
                                       icon:
-                                      const Icon(Icons.keyboard_arrow_down),
-                                      hint: const Text(
-                                          StringsManager.areas),
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      hint: Text(StringsManager.areas),
                                       validator: (value) {
                                         if (value == null) {
-                                          return StringsManager
-                                              .eAreas;
+                                          return StringsManager.eAreas;
                                         }
                                         return null;
                                       },
                                       items: _register1
                                           .getAreas()
                                           .map((e) => DropdownMenuItem(
-                                        value: e.name,
-                                        child: Text(" ${e.name}"),
-                                      ))
+                                                value: e.name,
+                                                child: Text(" ${e.name}"),
+                                              ))
                                           .toList(),
                                       onChanged: (val) {
                                         print(val);
-                                 //       _register2.setAreaId(val!);
+                                        //       _register2.setAreaId(val!);
                                       }),
                                 ),
                               ],
@@ -460,15 +507,18 @@ class _SignUpViewState extends State<SignUpView> {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: AppPadding.p28,vertical: AppPadding.p28),
+                                horizontal: AppPadding.p28,
+                                vertical: AppPadding.p28),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
                                   onTap: () {
-                             //       if (_globalKey.currentState!.validate()) {
-                                      _register2.setNum(0);
-                               //     }
+                                      Provider.of<SignUpViewModel>(context,
+                                              listen: false)
+                                          .setNum(0);
+
+                                    //     }
                                   },
                                   child: Align(
                                     alignment: Alignment.centerLeft,
@@ -485,22 +535,29 @@ class _SignUpViewState extends State<SignUpView> {
                                 InkWell(
                                   onTap: () {
                                     if (_globalKey.currentState!.validate()) {
-                                      _register2.setNum(2);
-                                   }
+
+                                        Provider.of<SignUpViewModel>(context,
+                                                listen: false)
+                                            .setNum(2);
+
+                                    }
                                   },
                                   child: Align(
                                     alignment: Alignment.centerRight,
                                     child: CircleAvatar(
                                         radius: 30,
                                         backgroundColor: ColorManager.icon,
-                                        child: Icon(
-                                          Icons.keyboard_arrow_right_rounded,
-                                          color: ColorManager.white,
-                                          size: 60,
+                                        child: Transform(
+                                          alignment: Alignment.center,
+                                          transform: Matrix4.rotationY(isRtl() ? math.pi :0),
+                                          child: Icon(
+                                            Icons.keyboard_arrow_right_rounded,
+                                            color: ColorManager.white,
+                                            size: 60,
+                                          ),
                                         )),
                                   ),
                                 ),
-
                               ],
                             ),
                           ),
@@ -525,7 +582,7 @@ class _SignUpViewState extends State<SignUpView> {
                                 children: [
                                   Expanded(
                                       child: Text(
-                                    "Subscription",
+                                    StringsManager.subscription,
                                     textAlign: TextAlign.center,
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
@@ -536,7 +593,7 @@ class _SignUpViewState extends State<SignUpView> {
                                   ),
                                   Expanded(
                                       child: Text(
-                                    "DayNumber",
+                                    StringsManager.daysNumber,
                                     textAlign: TextAlign.center,
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
@@ -547,7 +604,7 @@ class _SignUpViewState extends State<SignUpView> {
                                   ),
                                   Expanded(
                                       child: Text(
-                                    "Price",
+                                    StringsManager.price,
                                     textAlign: TextAlign.center,
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
@@ -566,8 +623,11 @@ class _SignUpViewState extends State<SignUpView> {
                                         height: AppSize.s8,
                                         color: Colors.white,
                                       ),
-                                  itemCount:
-                                      _register2.getDataSubscriptions().length,
+                                  itemCount: Provider.of<SignUpViewModel>(
+                                          context,
+                                          listen: false)
+                                      .getDataSubscriptions()
+                                      .length,
                                   itemBuilder: (context, index) => _register1
                                               .getC() ==
                                           index
@@ -668,12 +728,17 @@ class _SignUpViewState extends State<SignUpView> {
                                           ),
                                           child: InkWell(
                                             onTap: (() {
-                                              _register2.setC(
-                                                  index,
-                                                  _register2
-                                                      .getDataSubscriptions()[
-                                                          index]
-                                                      .id);
+                                              Provider.of<SignUpViewModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .setC(
+                                                      index,
+                                                      Provider.of<SignUpViewModel>(
+                                                              context,
+                                                              listen: false)
+                                                          .getDataSubscriptions()[
+                                                              index]
+                                                          .id);
                                             }),
                                             child: Row(
                                               mainAxisAlignment:
@@ -689,7 +754,9 @@ class _SignUpViewState extends State<SignUpView> {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        _register2
+                                                        Provider.of<SignUpViewModel>(
+                                                                context,
+                                                                listen: false)
                                                             .getDataSubscriptions()[
                                                                 index]
                                                             .name,
@@ -717,7 +784,9 @@ class _SignUpViewState extends State<SignUpView> {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        _register2
+                                                        Provider.of<SignUpViewModel>(
+                                                                context,
+                                                                listen: false)
                                                             .getDataSubscriptions()[
                                                                 index]
                                                             .daysNumber,
@@ -745,7 +814,9 @@ class _SignUpViewState extends State<SignUpView> {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        _register2
+                                                        Provider.of<SignUpViewModel>(
+                                                                context,
+                                                                listen: false)
                                                             .getDataSubscriptions()[
                                                                 index]
                                                             .price,
@@ -775,10 +846,12 @@ class _SignUpViewState extends State<SignUpView> {
                                 child: ElevatedButton(
                                     onPressed: () {
                                       if (_globalKey.currentState!.validate()) {
-                                        _register2.getSignUp();
+                                        Provider.of<SignUpViewModel>(context,
+                                                listen: false)
+                                            .getSignUp();
                                       }
                                     },
-                                    child: const Text(StringsManager.signUp)),
+                                    child: Text(StringsManager.signUp)),
                               ),
                             ),
                           ],
@@ -789,26 +862,19 @@ class _SignUpViewState extends State<SignUpView> {
       ),
     );
   }
-
-  @override
-  void dispose() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _signUpViewModel.dispose();
-
-    });
-    super.dispose();
+  isRtl(){
+    return context.locale==ARABIC_LOCALE;
   }
 }
 /*
- StreamBuilder<FlowState>(
+   StreamBuilder<FlowState>(
           stream:
               Provider.of<SignUpViewModel>(context, listen: false).outputState,
           builder: (context, snapshot) {
-            return snapshot.data
-                    ?.getScreenWidget(context, _getContentWidget(context), () {
-                  Provider.of<SignUpViewModel>(context, listen: false)
-                      .getSignUp();
+            return snapshot.data?.getScreenWidget(
+                    _scaffoldKey.currentContext!, _getContentWidget(), () {
+                  Provider.of<SignUpViewModel>(context, listen: false).start();
                 }) ??
-                _getContentWidget(context);
+                Container();
           }),
  */

@@ -19,6 +19,14 @@ class HomeViewModel extends BaseViewModel with ChangeNotifier{
   var _line;
   bool _isLog=false;
   bool isPos=false;
+
+  void setIsPos(bool isLog1){
+    isPos =isLog1;
+    notifyListeners();
+  }
+  bool getIsPos(){
+    return isPos;
+  }
   void setIsLog(bool isLog1){
     _isLog =isLog1;
     notifyListeners();

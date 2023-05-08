@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled/app/di.dart';
 import 'package:untitled/presentation/common/state_renderer/state_renderer_imp.dart';
 import 'package:untitled/presentation/resources/assets_manager.dart';
 import 'package:untitled/presentation/resources/color_manager.dart';
@@ -19,7 +20,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
   @override
   final _globalKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _global = GlobalKey<ScaffoldState>();
-
+  SubscriptionViewModel _subscriptionViewModel=instance<SubscriptionViewModel>();
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -29,9 +30,7 @@ super.initState();
   }
   @override
   void dispose() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<SubscriptionViewModel>(context,listen: false).dispose();
-    });
+      _subscriptionViewModel.dispose();
 
     super.dispose();
   }

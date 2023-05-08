@@ -29,7 +29,7 @@ class _AfterSplashViewState extends State<AfterSplashView> {
   }
   _dailyReservation(){
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.pushNamed(context, Routes.subscriptionRoute);
+      Navigator.pushNamed(context, Routes.mapPositionRoute);
     });
   }
   _subscription(){
@@ -61,7 +61,7 @@ class _AfterSplashViewState extends State<AfterSplashView> {
             child: ElevatedButton(
                 onPressed: () =>
                   _goTransactionLine(),
-                child: const Text(StringsManager.transportationLines)),
+                child:  Text(StringsManager.transportationLines)),
               ),
               const SizedBox(
             height: AppSize.s28,
@@ -72,7 +72,7 @@ class _AfterSplashViewState extends State<AfterSplashView> {
             child: ElevatedButton(
                 onPressed: ()  =>
                     _dailyReservation(),
-                child: const Text(StringsManager.dailyReservation)),
+                child:  Text(StringsManager.dailyReservation)),
               ),
               const SizedBox(
             height: AppSize.s28,
@@ -83,7 +83,7 @@ class _AfterSplashViewState extends State<AfterSplashView> {
             child: ElevatedButton(
                 onPressed: ()  =>
                     _subscription(),
-                child: const Text(StringsManager.subscription)),
+                child:  Text(StringsManager.subscription)),
               ),
               const SizedBox(
             height: AppSize.s28,
@@ -94,7 +94,7 @@ class _AfterSplashViewState extends State<AfterSplashView> {
             child: ElevatedButton(
                 onPressed: () =>
                   _goLogin(),
-                child: const Text(StringsManager.signIn)),
+                child:  Text(StringsManager.signIn)),
               ),
             ],
           ),

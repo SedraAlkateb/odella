@@ -10,6 +10,7 @@ import 'package:untitled/presentation/map_position/view/map_position_view.dart';
 import 'package:untitled/presentation/page/home/view/home_view.dart';
 import 'package:untitled/presentation/page/page_view.dart';
 import 'package:untitled/presentation/resources/strings_manager.dart';
+import 'package:untitled/presentation/settings/view/settings_view.dart';
 import 'package:untitled/presentation/signup/view/signUp_view.dart';
 import 'package:untitled/presentation/splash/splash_view.dart';
 import 'package:untitled/presentation/subscription/view/subscription_view.dart';
@@ -32,6 +33,10 @@ class Routes {
   static const String baseHomeScreen = "/baseHomeScreen";
 
   static const String pageScreen = "/pageScreen";
+  static const String settingRoute = "/setting";
+  static const String lostItemsRoute = "/lostItems";
+  static const String complaintsRoute = "/complaints";
+
 }
 
 class RouteGenerator {
@@ -69,7 +74,12 @@ class RouteGenerator {
       case Routes.baseHomeScreen:
         initBaseHomeModule();
         return MaterialPageRoute(builder: (_) => const BaseHomeView());
-
+      case Routes.settingRoute:
+        return MaterialPageRoute(builder: (_) => const SettingsView());
+      case Routes.lostItemsRoute:
+        return MaterialPageRoute(builder: (_) => const SettingsView());
+      case Routes.complaintsRoute:
+        return MaterialPageRoute(builder: (_) => const SettingsView());
 
       default:
         return unDefinedRoute();

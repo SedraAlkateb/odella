@@ -39,30 +39,25 @@ final  _scaffoldKey = GlobalKey<FormState>();
   }
   @override
   void initState() {
+
+
     Provider.of<HomeViewModel>(context,listen: false).start();
     super.initState();
   }
 @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:StreamBuilder<FlowState>(
-          stream:
-          Provider.of<HomeViewModel>(context, listen: false).outputState,
-          builder: (context, snapshot) {
-            return snapshot.data?.getScreenWidget(context,  contentWidget(), () {
-              Provider.of<HomeViewModel>(context, listen: false).start();
-            }) ??
-                contentWidget();
-          })
+      key: _scaffoldKey,
+      body:
+     contentWidget()
     );
 
   }
 
  Widget contentWidget(){
-
-   if(Provider.of<HomeViewModel>(context).isPos){
+  if(Provider.of<HomeViewModel>(context).getIsPos()){
      WidgetsBinding.instance.addPostFrameCallback((_) {
-       Provider.of<HomeViewModel>(context,listen: false).isPos=false;
+       Provider.of<HomeViewModel>(context,listen: false).setIsPos(false);
        _navigator.pushNamed(Routes.mapPositionRoute);
      });
    }
@@ -237,8 +232,7 @@ final  _scaffoldKey = GlobalKey<FormState>();
 
 AppBar getHomeAppBar(){
   return  AppBar(
-
-    title: Text("Home",style: getBoldStyle(color: ColorManager.sidBarIcon,fontSize: FontSize.s20),
+    title: Text( StringsManager.home,style: getBoldStyle(color: ColorManager.sidBarIcon,fontSize: FontSize.s20),
     ),
     actions: [
       Padding(
