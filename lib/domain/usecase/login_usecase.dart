@@ -11,7 +11,7 @@ class LoginUseCase implements BaseUseCase<LoginUseCaseInput,Authentication>{
 
   @override
   Future<Either<Failure, Authentication>> execute(LoginUseCaseInput input) async{
-    return await _repository.login(LoginRequest(input.email, input.password));
+    return await _repository.login(LoginRequest(input.email, input.password,input.fcmtoken));
 
   }
 
@@ -20,5 +20,6 @@ class LoginUseCase implements BaseUseCase<LoginUseCaseInput,Authentication>{
 class LoginUseCaseInput{
   String email;
   String password;
-  LoginUseCaseInput(this.email,this.password);
+  String fcmtoken;
+  LoginUseCaseInput(this.email,this.password,this.fcmtoken);
 }

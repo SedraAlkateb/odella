@@ -4,7 +4,8 @@ import 'dart:io';
 class LoginRequest{
   String email;
   String password;
-  LoginRequest(this.email,this.password);
+  String fcmtoken;
+  LoginRequest(this.email,this.password,this.fcmtoken);
 }
 class SignUpRequest{
   int city_id;

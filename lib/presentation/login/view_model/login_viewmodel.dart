@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:odella_master/domain/models/models.dart';
 import 'package:odella_master/domain/usecase/login_usecase.dart';
@@ -18,7 +19,9 @@ var loginObject=LoginObject("","");
 setAuth(Authentication authentication){
   _authentication=authentication;
   notifyListeners();
-}/*
+
+}
+
 
 bool getM(){
  return _isMounted;
@@ -27,7 +30,7 @@ setM(bool b){
   _isMounted=b;
   notifyListeners();
 }
-*/
+
 
 bool success(){
   if(_authentication?.status==1){
@@ -48,6 +51,8 @@ String? getRole(){
     return  _authentication?.userData?.access_token;
   }
 
+
+
 @override
   void dispose() {
   _authentication=null;
@@ -55,11 +60,34 @@ String? getRole(){
   super.dispose();
   }
 
+init()
+async {
+  String deviceToken = await getDeviceToken();
+  setFcmToken(deviceToken);
+  print("//////////////////////////////////////////////////////");
+  print(deviceToken);
+  print("//////////////////////////////////////////////////////");
+}
+
+
   @override
-  void start() {
+  Future<void> start() async {
     // view model should tell view please show content state
     inputState.add(ContentState());
+      init();
   }
+  String fcmToken="";
+  setFcmToken(String fcmToken1){
+    fcmToken==fcmToken1;
+    notifyListeners();
+
+  }
+  String getFcmToken(){
+    return fcmToken;
+  }
+
+
+
 
 
   //////////////////////////input////////////////////////
@@ -68,7 +96,7 @@ String? getRole(){
 
  ( await _loginUseCase.execute(
         LoginUseCaseInput(
-            loginObject.userName, loginObject.password
+            loginObject.userName, loginObject.password,getFcmToken()
         ))).fold(
 
             (failure)  {
@@ -113,6 +141,13 @@ notifyListeners();
     return isPasswordValid()&&
         isUserValid();
   }
+}
+
+Future getDeviceToken() async
+{
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  String? deviceToken = await firebaseMessaging.getToken();
+  return (deviceToken == null) ? "" : deviceToken;
 }
 
 ////////////////////////////////////////

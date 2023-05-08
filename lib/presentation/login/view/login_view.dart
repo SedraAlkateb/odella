@@ -34,7 +34,7 @@ class _LoginViewState extends State<LoginView> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Provider.of<LoginViewModel>(context, listen: false).start();
     });
-    init();
+    //init();
     //  }
     //tell viewmodel,start  ur job
     // SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -50,6 +50,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   @override
+
   void initState() {
     //_appPreferences.isUserLoggedIn();
     _bind();
@@ -57,12 +58,6 @@ class _LoginViewState extends State<LoginView> {
     super.initState();
   }
 
-  init() async {
-    String deviceToken = await getDeviceToken();
-    print("//////////////////////////////////////////////////////");
-    print(deviceToken);
-    print("//////////////////////////////////////////////////////");
-  }
 
   late NavigatorState _navigator;
 
@@ -273,12 +268,7 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Future getDeviceToken() async
-  {
-    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-    String? deviceToken = await firebaseMessaging.getToken();
-    return (deviceToken == null) ? "" : deviceToken;
-  }
+
 }
 
 
